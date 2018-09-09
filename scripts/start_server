@@ -1,0 +1,7 @@
+#!/bin/bash
+cd /home/ec2-user/ruby-on-rails
+source /etc/profile.d/rvm.sh
+grep SECRET_KEY_BASE $HOME/.bashrc || echo "export SECRET_KEY_BASE=`rake secret`" >> $HOME/.bashrc && source $HOME/.bashrc
+RAILS_ENV=production
+bundle exec rake assets:precompile
+bundle exec passenger start -p 80 -d -e production

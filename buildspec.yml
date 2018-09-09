@@ -1,0 +1,35 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      # Upgrade AWS CLI to the latest version
+      - pip install --upgrade awscli
+
+      # Install Ruby dependencies from the Gemfile.
+      - bundle install
+
+  pre_build:
+    commands:
+      # Set the SECRET_KEY_BASE environment variable for running tests
+      - export SECRET_KEY_BASE=$(rake secret)
+
+      # Run the tests using RSpec.
+      - rspec
+
+artifacts:
+  type: zip
+  files:
+    - 'appspec.yml'
+    - 'template.yml'
+    - 'scripts/*'
+    - 'config.ru'
+    - 'Gemfile'
+    - 'README.md'
+    - 'Rakefile'
+    - 'app/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'vendor/**/*'
